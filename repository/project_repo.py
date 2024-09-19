@@ -60,7 +60,8 @@ class Project_repo:
 
         @staticmethod
         def get_paginated_projects(limit=2, page=1):
-                offset = (page - 1) * limit  # Calculate offset based on the page and limit
+                # Calculate offset based on the page and limit
+                offset = (page - 1) * limit  
 
                 #offset determine where to start fetching rows when querying a database.
                 #offset: Defines how many records (rows) to skip before starting to fetch. 
@@ -74,16 +75,3 @@ class Project_repo:
         @staticmethod
         def get_total_project_count():
                 return Project.query.count()
-
-        @staticmethod
-        def get_paginated_projects_repo(page, per_page):
-                # Perform the query, but exclude 'tasks' and related fields
-               
-                paginated_projects = Project.query.with_entities(
-                Project.project_id,
-                Project.project_name,
-                Project.start_date,  # Assuming these are the correct column names
-                Project.end_date,
-                Project.description
-                ).paginate(page=page, per_page=per_page, error_out=False)
-                return paginated_projects
