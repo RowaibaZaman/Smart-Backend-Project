@@ -3,8 +3,6 @@ from webargs import fields
 from marshmallow import ValidationError
 from webargs.flaskparser import use_args
 from bl.image_bl import Image_bl
-from io import BytesIO
-
 
 # Create the blueprint
 image_bp = Blueprint('images', __name__)
