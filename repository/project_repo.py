@@ -20,6 +20,8 @@ class Project_repo:
         def get_all_projects():
                 result =  Project.query.all()
                 return result
+        
+
         @staticmethod
         def project_with_task_repo(project_id):
                 project = (
@@ -55,3 +57,17 @@ class Project_repo:
                 """Create and return the ProjectSchema instance."""
                 return ProjectSchema() if single else ProjectSchema(many=True)
         
+
+        @staticmethod
+        def get_paginated_projects(limit=2, page=1):
+                offset = (page - 1) * limit  # Calculate offset based on the page and limit
+
+                # Query with limit and offset for pagination
+                query = Project.query.offset(offset).limit(limit)
+
+                result = query.all()
+                return result
+
+        @staticmethod
+        def get_total_project_count():
+                return Project.query.count()

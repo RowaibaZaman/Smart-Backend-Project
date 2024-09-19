@@ -52,3 +52,16 @@ def update_project(args):
     # Call the business logic with project_id and update_data
     result = Project_BL.update_project_bl(project_id, update_data)
     return jsonify(result)
+
+
+@project_bp.route('/get_paginated_projects', methods=['GET'])
+@use_args({
+    "limit": fields.Int(required=False, missing=2),  # Default limit is 10
+    "page": fields.Int(required=False, missing=1)     # Default page is 1
+}, location='query')
+def get_paginated_projects(args):
+    limit = args.get('limit')
+    page = args.get('page')
+
+    result = Project_BL.get_paginated_projects_bl(limit, page)
+    return jsonify(result), 200

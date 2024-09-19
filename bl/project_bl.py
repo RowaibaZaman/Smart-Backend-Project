@@ -21,14 +21,17 @@ class Project_BL:
             
             projects = Project_repo.get_all_projects()
 
-            result = [{
-                "project_id": project.project_id,
-                "project_name": project.project_name,
-                "start_date": project.start_date.strftime('%Y-%m-%d'),
-                "end_date": project.end_date.strftime('%Y-%m-%d'),
-                "description": project.description
-            }
-            for project in projects]
+            # result = [{
+            #     "project_id": project.project_id,
+            #     "project_name": project.project_name,
+            #     "start_date": project.start_date.strftime('%Y-%m-%d'),
+            #     "end_date": project.end_date.strftime('%Y-%m-%d'),
+            #     "description": project.description
+            # }
+            # for project in projects]
+
+            schema = Project_repo.get_project_schema(single = False)  # Get the single schema
+            result = schema.dump(projects)
             return  result
       
             
@@ -60,10 +63,30 @@ class Project_BL:
             # If the project exists
             updated_project = Project_repo.update_project_repo(project_id, update_data)
             db.session.commit()
-            
+
             schema = Project_repo.get_project_schema(single = True)
             result = schema.dump(updated_project)
 
             return {"message": "Project updated successfully", "project": result}
         except Exception as e:
             return {'message': f"An error occurred: {str(e)}"}, 500
+        
+
+    @staticmethod
+    def get_paginated_projects_bl(limit, page):
+        projects = Project_repo.get_paginated_projects(limit, page)
+        # total_count = Project_repo.get_total_project_count()
+
+        schema = Project_repo.get_project_schema(single=False)
+        result = schema.dump(projects)
+
+        ## Include pagination metadata
+        # return {
+        #     "projects": result,
+        #     "total_projects": total_count,
+        #     "page": page,
+        #     "limit": limit,
+        #     "total_pages": (total_count + limit - 1) // limit  # Total number of pages
+        # }
+
+        return result
