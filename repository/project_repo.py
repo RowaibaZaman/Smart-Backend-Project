@@ -35,7 +35,23 @@ class Project_repo:
                 return project
         
         @staticmethod
+        def check_project(project_id):
+                result = Project.query.filter_by(project_id=project_id).first()
+                return result
+        
+        @staticmethod
+        def update_project_repo(project_id, update_data):
+                project = Project.query.get(project_id)
+                
+                # Update the project's fields
+                for key, value in update_data.items():
+                        if hasattr(project, key):
+                                setattr(project, key, value)
+                return project
+        
+
+        @staticmethod
         def get_project_schema(single=True):
                 """Create and return the ProjectSchema instance."""
                 return ProjectSchema() if single else ProjectSchema(many=True)
-                
+        

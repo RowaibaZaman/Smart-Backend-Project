@@ -37,4 +37,18 @@ def p_with_t(args):
     result = Project_BL.project_with_task_bl(project_id)
     return jsonify(result)
 
-
+@project_bp.route('/update_project', methods=['PUT'])
+@use_args({
+    "project_id": fields.Int(required=True),         # Get project_id from query params
+    "project_name": fields.Str(required=False),      # Get update fields from JSON body
+    "start_date": fields.Str(required=False),
+    "end_date": fields.Str(required=False),
+    "description": fields.Str(required=False)
+}, location='json')  # This will allow the args to come from both query and json
+def update_project(args):
+    project_id = args.get('project_id')  # Extract project_id from query parameters
+    update_data = {k: v for k, v in args.items() if v is not None and k != 'project_id'}  # Extract fields to update
+    
+    # Call the business logic with project_id and update_data
+    result = Project_BL.update_project_bl(project_id, update_data)
+    return jsonify(result)

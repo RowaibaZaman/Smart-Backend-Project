@@ -7,7 +7,6 @@ from repository.project_repo import Project_repo
 class Project_BL:
     @staticmethod
     def add_project_bl(args):
-
         try:
             new_project = Project_repo.add_project_repo(args)
 
@@ -49,3 +48,22 @@ class Project_BL:
         except Exception as e:
             return {'message': f"An error occurred: {str(e)}"}, 500
         
+
+    @staticmethod
+    def update_project_bl(project_id, update_data):
+        try:
+            # Check if the project exists
+            project = Project_repo.check_project(project_id)
+            if not project:
+                return {"message": "Project not found"}, 404
+            
+            # If the project exists, proceed with updating it
+            updated_project = Project_repo.update_project_repo(project_id, update_data)
+            
+            # Use Marshmallow's schema to serialize the result
+            schema = Project_repo.get_project_schema(single = True)
+            result = schema.dump(updated_project)
+
+            return {"message": "Project updated successfully", "project": result}
+        except Exception as e:
+            return {'message': f"An error occurred: {str(e)}"}, 500

@@ -1,9 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify
 from webargs import fields
 from webargs.flaskparser import use_args
-# from schemas.TaskSchema import tasks_schema, task_schema
 from bl.task_bl import Task_BL
-# from bl.task_bl import add_task,get_all_tasks, delete_task_bl
 
 task_bp = Blueprint('task', __name__)
 
