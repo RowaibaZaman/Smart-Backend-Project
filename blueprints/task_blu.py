@@ -5,9 +5,7 @@ from webargs.flaskparser import use_args
 from bl.task_bl import Task_BL
 # from bl.task_bl import add_task,get_all_tasks, delete_task_bl
 
-
 task_bp = Blueprint('task', __name__)
-
 
 @task_bp.route('/get_task_by_id', methods=['GET'])
 

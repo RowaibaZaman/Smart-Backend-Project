@@ -16,6 +16,12 @@ class image_repo:
         new_image = ResourceImage(resource_id=resource_id, image_data=image.read())
         db.session.add(new_image)
         return "Image saved successfully"
+
+
+    @staticmethod
+    def check_image(resource_id):
+        resource = ResourceImage.query.filter_by(resource_id = resource_id).first()
+        return resource
     
     @staticmethod
     def get_image_repo(resource_id):
