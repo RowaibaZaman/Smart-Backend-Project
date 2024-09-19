@@ -80,13 +80,13 @@ class Project_BL:
         schema = Project_repo.get_project_schema(single=False)
         result = schema.dump(projects)
 
-        ## Include pagination metadata
+        # # Include pagination metadata
         # return {
         #     "projects": result,
-        #     "total_projects": total_count,
+        #     # "total_projects": total_count,
         #     "page": page,
         #     "limit": limit,
-        #     "total_pages": (total_count + limit - 1) // limit  # Total number of pages
+        #     # "total_pages": (total_count + limit - 1) // limit  # Total number of pages
         # }
 
         return result
