@@ -43,3 +43,19 @@ def get_image(args):
     image_data = Image_bl.get_image_bl(resource_id)
     
     return image_data
+
+@image_bp.route('/update_image', methods = ['POST'])
+@use_args({
+    'resource_id': fields.Int(required= True) 
+}, location = 'form')
+
+def update_image_blu(args):
+    resource_id = args.get('resource_id')
+    image = request.files['image_data']
+
+    try:
+        # Call the business logic layer to update the image
+        image_data = Image_bl.update_image_bl(image, resource_id)
+        return jsonify({'message': image_data}), 200
+    except ValidationError as e:
+        return jsonify({'error': str(e)}), 400

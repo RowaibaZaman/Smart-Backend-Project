@@ -31,3 +31,12 @@ class image_repo:
             # return image_record.image_data  # Return binary image data
             return send_file(BytesIO(image_record.image_data), mimetype='image/jpeg', as_attachment=False)
         return None
+    
+    @staticmethod
+    def update_image_repo(image, resource_id):
+
+        # Check if an image already exists for the resource
+        existing_image = ResourceImage.query.filter_by(resource_id=resource_id).first()
+        existing_image.image_data = image.read()
+        
+        return "Image updated successfully"
