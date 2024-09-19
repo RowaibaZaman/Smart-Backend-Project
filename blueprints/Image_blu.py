@@ -9,6 +9,7 @@ from io import BytesIO
 # Create the blueprint
 image_bp = Blueprint('images', __name__)
 
+#UPLOAD ROUTE
 
 @image_bp.route('/upload_image', methods=['POST'])
 @use_args({
@@ -32,6 +33,7 @@ def upload_image(args):
 
 
 # GET route 
+
 @image_bp.route('/get_image', methods=['GET'])
 @use_args({
     'resource_id': fields.Int(required=True)
@@ -43,6 +45,10 @@ def get_image(args):
     image_data = Image_bl.get_image_bl(resource_id)
     
     return image_data
+
+
+
+# UPDATE ROUTE
 
 @image_bp.route('/update_image', methods = ['POST'])
 @use_args({

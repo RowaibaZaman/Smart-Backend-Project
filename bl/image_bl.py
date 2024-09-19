@@ -7,6 +7,11 @@ class Image_bl:
 
     @staticmethod
     def upload_image_bl(image, resource_id):
+
+        check_resource = image_repo.check_image(resource_id)
+        if not check_resource:
+            raise ValidationError("Reource does'nt Exists")
+        
         image = image_repo.check_image(resource_id)
         if image:
             raise ValidationError("Image already uploaded")

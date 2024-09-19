@@ -9,10 +9,6 @@ from flask import send_file
 class image_repo:
     @staticmethod
     def upload_image_repo(image, resource_id):
-        resource = Resource.query.filter_by(resource_id=resource_id).first()
-        if not resource:
-            raise ValidationError("Resource does not exist") #Return error if resource not found
-
         new_image = ResourceImage(resource_id=resource_id, image_data=image.read())
         db.session.add(new_image)
         return "Image saved successfully"
