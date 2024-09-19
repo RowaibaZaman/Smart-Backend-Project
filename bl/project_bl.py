@@ -57,10 +57,10 @@ class Project_BL:
             if not project:
                 return {"message": "Project not found"}, 404
             
-            # If the project exists, proceed with updating it
+            # If the project exists
             updated_project = Project_repo.update_project_repo(project_id, update_data)
+            db.session.commit()
             
-            # Use Marshmallow's schema to serialize the result
             schema = Project_repo.get_project_schema(single = True)
             result = schema.dump(updated_project)
 
