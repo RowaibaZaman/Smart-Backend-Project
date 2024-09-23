@@ -1,8 +1,6 @@
-# from repository.project_repo import Project_repo
 from flask import Blueprint, jsonify
 from webargs import fields
 from webargs.flaskparser import use_args
-from datetime import datetime
 from bl.project_bl import Project_BL
 
 project_bp = Blueprint('project', __name__ )

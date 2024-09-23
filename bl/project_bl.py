@@ -75,18 +75,16 @@ class Project_BL:
     @staticmethod
     def get_paginated_projects_bl(limit, page):
         projects = Project_repo.get_paginated_projects(limit, page)
-        # total_count = Project_repo.get_total_project_count()
+        total_count = Project_repo.get_total_project_count()
 
         schema = Project_repo.get_project_schema(single=False)
         result = schema.dump(projects)
 
-        # # Include pagination metadata
-        # return {
-        #     "projects": result,
-        #     # "total_projects": total_count,
-        #     "page": page,
-        #     "limit": limit,
-        #     # "total_pages": (total_count + limit - 1) // limit  # Total number of pages
-        # }
-
-        return result
+        # Include pagination metadata
+        return {
+            "projects": result,
+            # "total_projects": total_count,
+            "page": page,
+            "limit": limit,
+            "total_pages": (total_count + limit - 1) // limit  # Total number of pages
+        }

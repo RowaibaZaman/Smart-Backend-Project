@@ -25,6 +25,7 @@ def create_app():
     from blueprints.role_blu import role_bp
     from blueprints.Image_blu import image_bp
     from blueprints.role_allocation_blu import roleAllocation_bp
+    from blueprints.salary_blu import salary_bp
 
     app.register_blueprint(department_bp)
     app.register_blueprint(project_bp)
@@ -34,6 +35,7 @@ def create_app():
     app.register_blueprint(role_bp)
     app.register_blueprint(image_bp)
     app.register_blueprint(roleAllocation_bp)
+    app.register_blueprint(salary_bp)
      
 
     
