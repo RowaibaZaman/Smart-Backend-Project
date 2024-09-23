@@ -21,4 +21,9 @@ class SalaryRepo:
     def get_salary_schema(single=True):
                 """Create and return the schema instance."""
                 return SalarySchema() if single else SalarySchema(many=True)
+    
+    @staticmethod
+    def get_salaries():
+        salaries = db.session.query(Salary).all()
+        return salaries
 

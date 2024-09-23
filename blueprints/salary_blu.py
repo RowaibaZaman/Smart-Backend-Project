@@ -17,15 +17,21 @@ salary_bp = Blueprint('salary_bp', __name__)
 }, location='json')
 
 def add_salary(args):
-    resource_id = args.get('resource_id')
-    salary_amount = args.get('salary')
-    
     try:
         response = SalaryBL.add_salary(args)
         return jsonify(response), 201
     
     except ValidationError as ve:
         return jsonify({"error": str(ve)}), 400
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@salary_bp.route('/get_salry', methods = ['GET'])
+def get_salary():
+    try:
+        response = SalaryBL.get_all_salaries()
+        return jsonify(response), 201
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500

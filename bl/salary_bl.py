@@ -2,6 +2,7 @@ from repository.salary_repo import SalaryRepo
 from app import db
 from marshmallow import ValidationError
 from flask import  jsonify
+from schemas.salary_schema import SalarySchema
 
 class SalaryBL:
 
@@ -26,3 +27,19 @@ class SalaryBL:
         except Exception as e:
             db.session.rollback()
             return jsonify({"Resource doesn't exists"})
+        
+    @staticmethod
+    def get_all_salaries():
+            try:
+                # Retrieve all salary records from the repository
+                salaries = SalaryRepo.get_salaries()
+
+                # Serialize the result using the SalarySchema
+                schema = SalaryRepo.get_salary_schema(single=False)
+                serialized_data = schema.dump(salaries)
+
+                return {"salaries": serialized_data}, 200
+
+            except Exception as e:
+                # Return a 500 response if any error occurs
+                return {"error": str(e)}, 500
