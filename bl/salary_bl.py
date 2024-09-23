@@ -52,8 +52,8 @@ class SalaryBL:
         schema = SalaryRepo.get_salary_schema()
 
         if existing_salary:
-            # If it exists, update the salary
             updated_salary = SalaryRepo.update_salary_repo(resource_id, salary)
+            db.session.commit() 
             return {"message": "Salary updated successfully!", "salary": schema.dump(updated_salary)}, 200
         else:
             raise ValidationError("Salary is not assigned; add salary to resource.")

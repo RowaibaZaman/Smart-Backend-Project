@@ -27,28 +27,15 @@ class SalaryRepo:
         salaries = db.session.query(Salary).all()
         return salaries
     
-    # @staticmethod
-    # def update_salary(**args):
-        # resource_id = args.get('resource_id')
-        # salary_amount = args.get('salary')
-        
-        # # Retrieve the existing salary record
-        # existing_salary = db.session.query(Salary).filter_by(resource_id=resource_id).first()
-        
-        # # Update the salary
-        # existing_salary.salary = salary_amount
-        
-        
-        # return existing_salary
+   
     @staticmethod
     def update_salary_repo(resource_id, salary_amount):
         # Retrieve the existing salary record
         existing_salary = db.session.query(Salary).filter_by(resource_id=resource_id).first()
         
         if existing_salary:
-            # Update the salary
             existing_salary.salary = salary_amount
-            db.session.commit()  # Commit changes
+            
             return existing_salary
         else:
             raise ValueError("Salary record not found.")
