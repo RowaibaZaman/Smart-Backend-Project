@@ -33,3 +33,22 @@ def get_salary():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+@salary_bp.route('/update_salary', methods=['POST'])
+@use_args({
+    "resource_id": fields.String(required=True),
+    "salary": fields.Decimal(required=True)
+}, location='json')
+def add_or_update_salary(args):
+ 
+
+    try:
+        response, status_code = SalaryBL.update_salary_bl(args)
+        return jsonify(response), status_code
+    
+    except ValidationError as ve:
+        return jsonify({"error": str(ve)}), 400
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
