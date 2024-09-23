@@ -16,10 +16,7 @@ class SalaryBL:
         try: 
             result = SalaryRepo.add_salary(args)
             db.session.commit()
-
-            # schema = SalaryRepo.get_salary_schema(single = False)
-
-            # result1 = schema.dump(result)
+            
             if result:
                 return {"message": "Salary added successfully" }, 201
             
@@ -41,5 +38,4 @@ class SalaryBL:
                 return {"salaries": serialized_data}, 200
 
             except Exception as e:
-                # Return a 500 response if any error occurs
                 return {"error": str(e)}, 500
