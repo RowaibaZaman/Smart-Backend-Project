@@ -2,8 +2,6 @@ from flask import Blueprint, jsonify
 from webargs.flaskparser import use_args
 from webargs import fields
 from bl.salary_bl import SalaryBL
-from models.salary_model import Salary
-from models.Resoucre_model import Resource
 from marshmallow import ValidationError
 
 

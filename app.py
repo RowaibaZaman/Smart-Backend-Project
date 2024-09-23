@@ -27,6 +27,8 @@ def create_app():
     from blueprints.role_allocation_blu import roleAllocation_bp
     from blueprints.salary_blu import salary_bp
 
+
+#register blu prints
     app.register_blueprint(department_bp)
     app.register_blueprint(project_bp)
     app.register_blueprint(task_bp)
