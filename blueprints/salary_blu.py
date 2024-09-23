@@ -35,7 +35,7 @@ def get_salary():
         return jsonify({"error": str(e)}), 500
     
 
-@salary_bp.route('/update_salary', methods=['POST'])
+@salary_bp.route('/update_salary', methods=['PUT'])
 @use_args({
     "resource_id": fields.String(required=True),
     "salary": fields.Decimal(required=True)
