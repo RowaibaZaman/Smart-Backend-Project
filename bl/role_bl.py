@@ -1,7 +1,7 @@
 from flask import jsonify
 from app import db
 from repository.role_repo import Role_repo 
-# from schemas.RoleSchema import role_schema
+
 
 class RoleBL:
 
@@ -15,10 +15,14 @@ class RoleBL:
             return {"message": "Role with this name already exists"}, 400
 
         try:
-            new_role = Role_repo.add_Role_repo(args) 
+            new_role = Role_repo.add_Role_repo(args)
             db.session.commit()
-            return {'message': 'New role added successfully', 'role' :new_role}, 201
+
+            # Serialize the new role using RoleSchema
+            schema = Role_repo.get_role_schema()
+            role_data = schema.dump(new_role)
+
+            return {'message': 'New role added successfully', 'role': role_data}, 201
 
         except Exception as e:
-            db.session.rollback()
             return {'message': f"An error occurred: {str(e)}"}, 500

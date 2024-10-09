@@ -2,7 +2,6 @@
 from app import ma
 from models.Resourcealloctaion_model import ResourceAllocation
 from schemas.ResourceSchema import ResourceSchema
-# from schemas.ProjectSchema import ProjectSchema
 from datetime import datetime
 from marshmallow import pre_load
 
@@ -18,6 +17,9 @@ class ResourceAllocationSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
 
     resource = ma.Nested(ResourceSchema) 
+    fields = ('id', 'resource_id', 'task_id', 'allocation_date', 'project_id')
+
+    # task_id = ma.Int(required=False)
     
     @pre_load
     def conversion(self, data, **kwargs):

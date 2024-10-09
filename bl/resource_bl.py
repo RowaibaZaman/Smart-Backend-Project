@@ -2,7 +2,6 @@
 
 from flask import jsonify
 from app import db
-# from schemas.ResourceSchema import resource_schema
 from repository.resource_repo import Resource_repo
 
 
@@ -40,7 +39,6 @@ class ResourceBL:
             return None
 
         # Serialize the resource data using the Marshmallow schema
-        # resource_schema = ResourceSchema()
         schema = Resource_repo.get_resource_schema(single= True)
         result = schema.dump(resource)
 
@@ -62,11 +60,8 @@ class ResourceBL:
     def get_all_resources():
         try:
             result = Resource_repo.get_all_resource()
-
             schema = Resource_repo.get_resource_schema(single=False)
-
             serialized_result = schema.dump(result)
-
             for allocation in serialized_result:
                  if 'resource_allocation' in allocation: 
                      del allocation['resource_allocation']

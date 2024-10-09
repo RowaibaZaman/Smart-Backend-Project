@@ -1,23 +1,37 @@
 from repository.dept_repo import Dept_repo
 from app import db
+from marshmallow import ValidationError
 
 class Department_BL():
     @staticmethod
-    def get_department(args):
-        departments_id = args.get('department_id')
-        return Dept_repo.get_department_repo(departments_id)
+    def get_department(departments_id):
+        if not departments_id:
+            raise ValidationError("Provide Valid department id")
+        
+        dept = Dept_repo.get_department_repo(departments_id)
+        if not dept:
+            raise ValidationError("Department doesn't exist")
+        
+        schema = Dept_repo.get_dept_schema()
+        result = schema.dump(dept)
+
+        return result
     
     @staticmethod
     def delete_department(dept_id):
-        id= Dept_repo.delete_department(dept_id)
-        db.session.commit()
-        return id
-    
+        dept = Dept_repo.get_dept_id(dept_id)
+        if dept:
+            id= Dept_repo.delete_department(dept)
+            db.session.commit()
+            return id
+        else:
+            raise ValidationError("department doesn't exist")
+        
     @staticmethod
     def get_all_dpt():
         dept = Dept_repo.get_all_departments()
 
-        schema = Dept_repo.get_project_schema(single= False)
+        schema = Dept_repo.get_dept_schema(single = False)
 
         serialized_result = schema.dump(dept)
         return serialized_result

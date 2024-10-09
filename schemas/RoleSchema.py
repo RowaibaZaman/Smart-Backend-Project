@@ -8,6 +8,3 @@ class RoleSchema(ma.SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
 
-
-# role_schema = RoleSchema()
-# roles_schema = RoleSchema(many=True)

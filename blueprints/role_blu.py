@@ -11,7 +11,10 @@ role_bp = Blueprint('role', __name__)
 @use_args({
     "role_name": fields.Str(required=True)
 }, location='json')
+
 def add_role(args):
+
+    """ Add new role"""
     role = RoleBL.add_role_bl(args)
     return jsonify(role)
 

@@ -1,5 +1,5 @@
 from app import db
-
+from models.project_tasks import project_task
     
 class Project(db.Model):
     __tablename__ = 'project'
@@ -11,4 +11,7 @@ class Project(db.Model):
 
     
     tasks = db.relationship('Task', back_populates = 'project' )
-    # ResourceAllocation = db.relationship("ResourceAllocation", back_populates = 'project')
+    resource_allocation = db.relationship("ResourceAllocation", back_populates = 'project')
+
+
+    # tasks = db.relationship('Task', secondary='project_task', back_populates='project')

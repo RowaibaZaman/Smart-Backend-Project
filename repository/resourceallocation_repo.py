@@ -9,6 +9,12 @@ from sqlalchemy.orm import joinedload
 class Resource_Allocation_Repo:
 
     @staticmethod
+    def get_resourceAllocation_schema(single=True):
+                """Create and return the schema instance."""
+                return ResourceAllocationSchema() if single else ResourceAllocationSchema(many=True)
+
+
+    @staticmethod
     def add_allocation_repo(args):
             new_ra = ResourceAllocation(**args)
             db.session.add(new_ra)
@@ -57,13 +63,11 @@ class Resource_Allocation_Repo:
         ).filter_by(id=id).first()
 
         return result
+    
+    
 
 
 
-    @staticmethod
-    def get_resourceAllocation_schema(single=True):
-                """Create and return the schema instance."""
-                return ResourceAllocationSchema() if single else ResourceAllocationSchema(many=True)
-
+    
 
 

@@ -1,7 +1,5 @@
 from app import db
 
-
-
 class Task(db.Model):
     __tablename__ = 'task'
 
@@ -15,3 +13,4 @@ class Task(db.Model):
 
     project = db.relationship('Project', back_populates = 'tasks')
     Resource_Allocation = db.relationship('ResourceAllocation', back_populates = 'taskss', lazy = True)
+    

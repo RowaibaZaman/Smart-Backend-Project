@@ -11,7 +11,6 @@ from models.task_model import Task
 class Resource_repo:
     @staticmethod
     def check_resource_exists(resource_name):
-            
             return Resource.query.filter_by(resource_name=resource_name).first()
     
     @staticmethod

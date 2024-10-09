@@ -1,7 +1,6 @@
 from models.task_model import Task
 from app import ma
 from marshmallow import pre_dump, pre_load, post_dump,ValidationError
-# from marshmallow import fields
 from schemas.ResourceAllocationSchema import ResourceAllocationSchema
 from datetime import datetime
 

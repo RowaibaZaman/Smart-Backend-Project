@@ -1,9 +1,9 @@
 
 from app import db
-from datetime import datetime
-from flask import jsonify
 from repository.project_repo import Project_repo
-# from schemas.ProjectSchema import project_schema, projects_schema
+from flask import jsonify
+from repository.resource_repo import Resource_repo
+from marshmallow import ValidationError
 class Project_BL:
     @staticmethod
     def add_project_bl(args):
@@ -21,15 +21,6 @@ class Project_BL:
             
             projects = Project_repo.get_all_projects()
 
-            # result = [{
-            #     "project_id": project.project_id,
-            #     "project_name": project.project_name,
-            #     "start_date": project.start_date.strftime('%Y-%m-%d'),
-            #     "end_date": project.end_date.strftime('%Y-%m-%d'),
-            #     "description": project.description
-            # }
-            # for project in projects]
-
             schema = Project_repo.get_project_schema(single = False)  # Get the single schema
             result = schema.dump(projects)
             return  result
@@ -41,9 +32,8 @@ class Project_BL:
             project = Project_repo.project_with_task_repo(project_id)
             if not project:
                 return {"message": "Project not found"}, 404
-            
-            # result = project_schema.dump(project)
-            schema = Project_repo.get_project_schema()  # Get the single schema
+
+            schema = Project_repo.get_project_schema()  
             result = schema.dump(project)
             return result
             
@@ -58,7 +48,8 @@ class Project_BL:
             # Check if the project exists
             project = Project_repo.check_project(project_id)
             if not project:
-                return {"message": "Project not found"}, 404
+                raise ValidationError(" Projectnot found")
+               
             
             # If the project exists
             updated_project = Project_repo.update_project_repo(project_id, update_data)
@@ -72,19 +63,42 @@ class Project_BL:
             return {'message': f"An error occurred: {str(e)}"}, 500
         
 
+
     @staticmethod
-    def get_paginated_projects_bl(limit, page):
-        projects = Project_repo.get_paginated_projects(limit, page)
-        total_count = Project_repo.get_total_project_count()
+    def get_paginated_project_bl(args):
+        """ Get paginated projects"""
+        limit = args.get('limit')
+        page = args.get('page')
+        paginated_projects = Project_repo.get_paginated_projects_repo(limit, page)
 
-        schema = Project_repo.get_project_schema(single=False)
-        result = schema.dump(projects)
+        schema = Project_repo.get_project_schema(single = False)
+        projects_result = schema.dump(paginated_projects)
 
-        # Include pagination metadata
-        return {
-            "projects": result,
-            # "total_projects": total_count,
-            "page": page,
-            "limit": limit,
-            "total_pages": (total_count + limit - 1) // limit  # Total number of pages
+        return{
+            "project": projects_result,
+            "total_projects": paginated_projects.total,
+            "page_no": paginated_projects.page,
+            "total_pages": paginated_projects.pages
         }
+    
+    
+    @staticmethod
+    def new_project_bl(args):
+        """ adding new project and allocation"""
+        #check project
+        project_id = args.get('project_id')
+        if project_id:
+            project = Project_repo.check_project(project_id)
+            if not project_id:
+                raise ValidationError("project doesn't exist")
+        resource_id = args.get('resource_id')
+        #check resoruce
+        if resource_id:
+            resource = Resource_repo.check_resource_id
+            if not resource:
+                raise ValidationError("Resource not fpund")
+                        
+        project = Project_repo.add_new_project(args, resource_id )
+        if project:
+            db.session.commit()
+        return jsonify({"message": "Project and Resource Allocation created successfully"}), 201

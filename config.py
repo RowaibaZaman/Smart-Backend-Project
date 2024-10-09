@@ -7,4 +7,4 @@ class config:
      SQLALCHEMY_TRACK_MODIFICATIONS = False
 
      # UPLOAD_FOLDER = r'C:/Users/HP/Desktop/uploads'
-     # MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB limit
+     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB limit

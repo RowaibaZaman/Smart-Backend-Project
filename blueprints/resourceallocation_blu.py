@@ -10,16 +10,24 @@ resourceAllocation_bp = Blueprint('resourceAllocation', __name__)
 @resourceAllocation_bp.route('/add_resource_allocation', methods = ['POST'])
 @use_args({
     "resource_id": fields.Int(required= True),
-    "task_id": fields.Int(required= True),
-    "allocation_date": fields.Str( required = True)
+    "task_id": fields.Int(required= False),
+    "allocation_date": fields.Str( required = True),
+    "project_id": fields.Int(required= False)
 }, location = 'json')
 
 
 def add_resourceAllocation(args):
+    """ Add resource Allocation, 
+    takes resource_id, task_id, allocation date input"""
     try:
         
-        new_allocation = Allocation_BL.add_resouceA(args)
+        new_allocation = Allocation_BL.add_resouceAllocation_bl(args)
         return jsonify(new_allocation)
+    
+    except ValidationError as ve:
+        # Print validation errors
+        print(f"ValidationError: {ve.messages}")
+        return jsonify({"error": ve.messages}), 422
     except Exception as e:
         # Handle any other unexpected exceptions
         return jsonify({'message': f"An unexpected error occurred: {str(e)}"}), 500
@@ -36,6 +44,7 @@ def resource_with_task(args):
         
         result = Allocation_BL.resource_with_task_bl(args)
         return result
+    
     except ValidationError as ve:
         # Handle data validation errors
         return jsonify({'message': str(ve)}), 400
@@ -73,7 +82,8 @@ def delete_repo(args):
 }, location= 'query')
 
 def get_ra(args):
+      """ get resoruce_allocation """
       id = args.get('id')
-      result = Allocation_BL.get_resourceA_BL(id)
+      result = Allocation_BL.get_resourceAllocation_BL(id)
       return jsonify(result)
 
