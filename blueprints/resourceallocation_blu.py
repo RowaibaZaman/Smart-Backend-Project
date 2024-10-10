@@ -11,8 +11,8 @@ resourceAllocation_bp = Blueprint('resourceAllocation', __name__)
 @use_args({
     "resource_id": fields.Int(required= True),
     "task_id": fields.Int(required= False),
-    "allocation_date": fields.Str( required = True),
-    "project_id": fields.Int(required= False)
+    "allocation_date": fields.Str( required = True)
+    # "project_id": fields.Int(required= False)
 }, location = 'json')
 
 
@@ -32,24 +32,21 @@ def add_resourceAllocation(args):
         # Handle any other unexpected exceptions
         return jsonify({'message': f"An unexpected error occurred: {str(e)}"}), 500
 
-
 #resource with task
 @resourceAllocation_bp.route('/resourceAllocation_with_task', methods= ['GET'])
 @use_args({
     'id': fields.Int(required=True)
 }, location = 'query')
 def resource_with_task(args):
+    """returing task where specific resource is allocated"""
 
     try:
-        
         result = Allocation_BL.resource_with_task_bl(args)
         return result
     
     except ValidationError as ve:
-        # Handle data validation errors
         return jsonify({'message': str(ve)}), 400
     except Exception as e:
-        # Handle other unexpected errors
         return jsonify({'message': f"An unexpected error occurred: {str(e)}"}), 500
 
 

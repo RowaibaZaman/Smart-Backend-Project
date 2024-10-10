@@ -10,4 +10,4 @@ class ResourceImage(db.Model):
     image_data = db.Column(db.LargeBinary, nullable=False)
     
     # Define the relationship
-    resource = db.relationship('Resource', backref=db.backref('images', lazy=True, cascade="all, delete-orphan"))
+    resource = db.relationship('Resource', backref=db.backref('images', lazy=True))

@@ -31,22 +31,24 @@ class Resource_Allocation_Repo:
     
     @staticmethod   
     def resource_with_task_repo(resource_id):
-            try:
+            
                 # Query the ResourceAllocation table for entries with the given resource_id
-                allocationss = (db.session.query(ResourceAllocation)
-                            .filter(ResourceAllocation.resource_id == resource_id)
-                            .all())
-                task_ids = [allocation.task_id for allocation in allocationss]
-                # Query Task table for all tasks with the extracted task_ids
-                tasks = db.session.query(Task).filter(Task.id.in_(task_ids)).all()
-                task_schema = Task_repo.get_task_schema(single = False)
+                # allocationss = (db.session.query(ResourceAllocation)
+                #             .filter(ResourceAllocation.resource_id == resource_id)
+                #             .all())
+                # task_ids = [allocation.task_id for allocation in allocationss]
                 
-                serialized_tasks = task_schema.dump(tasks)
-                # serialized_tasks = task_schema.dump(tasks)
-                return serialized_tasks
-            except Exception as e:
-                return {'message': f"An error occurred: {str(e)}"}, 500
-
+                # Query Task table for all tasks with the extracted task_ids
+                #filter tasks where the id is in the task_ids list.
+                # tasks = db.session.query(Task).filter(Task.id.in_(task_ids)).all()
+                
+                tasks = (db.session.query(Task)
+                 .join(ResourceAllocation)
+                 .filter(ResourceAllocation.resource_id == resource_id)
+                 .all())
+               
+                return tasks
+            
     @staticmethod
     def del_repo(id):
             result = ResourceAllocation.query.get(id)

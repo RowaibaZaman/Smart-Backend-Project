@@ -51,11 +51,19 @@ class Allocation_BL:
     @staticmethod
     def resource_with_task_bl(args):
         r_id = args.get('id')
-        resource = Resource_Allocation_Repo.resource_with_task_repo(r_id)
-        if resource:
-            return jsonify(resource)
+        check = Resource_repo.check_resource_id(r_id)
+        if not check:
+                raise ValidationError("Resource id doesn't exists")
+        
+        resource_task = Resource_Allocation_Repo.resource_with_task_repo(r_id)
+        if resource_task:
+            task_schema = Task_repo.get_task_schema(single = False)
+                
+            serialized_tasks = task_schema.dump(resource_task)
+              
+            return jsonify(serialized_tasks)
         else:
-            raise ValidationError("resource_id doesn't exists")
+            raise ValidationError("allocation doesn't exists")
             
     @staticmethod
     def get_resourceAllocation_BL(id):

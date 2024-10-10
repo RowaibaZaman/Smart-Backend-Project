@@ -11,7 +11,6 @@ class Department_BL():
         dept = Dept_repo.get_department_repo(departments_id)
         if not dept:
             raise ValidationError("Department doesn't exist")
-        
         schema = Dept_repo.get_dept_schema()
         result = schema.dump(dept)
 
@@ -30,7 +29,6 @@ class Department_BL():
     @staticmethod
     def get_all_dpt():
         dept = Dept_repo.get_all_departments()
-
         schema = Dept_repo.get_dept_schema(single = False)
 
         serialized_result = schema.dump(dept)
