@@ -50,7 +50,6 @@ class Project_BL:
             if not project:
                 raise ValidationError(" Projectnot found")
                
-            
             # If the project exists
             updated_project = Project_repo.update_project_repo(project_id, update_data)
             db.session.commit()
@@ -62,7 +61,6 @@ class Project_BL:
         except Exception as e:
             return {'message': f"An error occurred: {str(e)}"}, 500
         
-
 
     @staticmethod
     def get_paginated_project_bl(args):
@@ -85,18 +83,12 @@ class Project_BL:
     @staticmethod
     def new_project_bl(args):
         """ adding new project and allocation"""
-        #check project
-        project_id = args.get('project_id')
-        if project_id:
-            project = Project_repo.check_project(project_id)
-            if not project_id:
-                raise ValidationError("project doesn't exist")
         resource_id = args.get('resource_id')
         #check resoruce
         if resource_id:
             resource = Resource_repo.check_resource_id
             if not resource:
-                raise ValidationError("Resource not fpund")
+                raise ValidationError("Resource not found")
                         
         project = Project_repo.add_new_project(args, resource_id )
         if project:
